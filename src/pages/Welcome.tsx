@@ -1,41 +1,54 @@
-import React, { useState } from 'react'
-import { Text, Image, StyleSheet, SafeAreaView } from 'react-native'
-import { Button } from '../components/Button'
+import React from 'react'
+import {
+    Text,
+    Image,
+    StyleSheet,
+    SafeAreaView,
+    TouchableOpacity,
+    Dimensions,
+    View
+} from 'react-native'
+import { Feather } from '@expo/vector-icons'
 
 import wateringImg from '../assets/watering.png'
 import colors from '../styles/colors'
+import fonts from '../styles/fonts'
+import { useNavigation } from '@react-navigation/core'
 
 export function Welcome() {
-    const [visible, setVisible] = useState(false)
+    const navigation = useNavigation()
 
-    function handleVisibility() {
-        setVisible(value => !value)
+    function handleStart() {
+        navigation.navigate("UserIdentification")
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>
-                Gerencie{'\n'}
-                suas plantas{'\n'}
-                de forma fácil{'\n'}
-            </Text>
+            <View style={styles.wrapper}>
+                <Text style={styles.title}>
+                    Gerencie{'\n'}
+                    suas plantas de{'\n'}
+                    forma fácil{'\n'}
+                </Text>
 
-            {
-                !!visible && (
-                    <Image style={styles.image}
-                        source={wateringImg}
+                <Image style={styles.image}
+                    source={wateringImg}
+                    resizeMode="contain"
+                />
+
+                <Text style={styles.subTitle}>
+                    Não esqueça mais de regar suas plantas. Nós cuidamos de lembrar você sempre que precisar.
+                </Text>
+
+                <TouchableOpacity style={styles.button}
+                    activeOpacity={0.8}
+                    onPress={handleStart}
+                >
+                    <Feather style={styles.buttonIcon}
+                        name="chevron-right"
                     />
-                )
-            }
-
-            <Text style={styles.subTitle}>
-                Não esqueça mais de regar suas plantas. Nós cuidamos de lembrar você sempre que precisar.
-            </Text>
-
-            <Button
-                title={">"}
-            />
-
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     )
 }
@@ -43,24 +56,43 @@ export function Welcome() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+
+    },
+    wrapper: {
+        flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-around',
+        paddingHorizontal: 20,
     },
     title: {
-        fontSize: 32,
-        fontWeight: 'bold',
+        fontSize: 28,
         textAlign: 'center',
         color: colors.heading,
         marginTop: 38,
+        fontFamily: fonts.heading,
+        lineHeight: 34
     },
     subTitle: {
         textAlign: 'center',
         fontSize: 18,
         paddingHorizontal: 20,
         color: colors.heading,
+        fontFamily: fonts.text
     },
     image: {
-        width: 292,
-        height: 284,
-    }
+        height: Dimensions.get('window').width * 0.7,
+    },
+    button: {
+        backgroundColor: colors.green,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 16,
+        marginBottom: 10,
+        height: 56,
+        width: 56,
+    },
+    buttonIcon: {
+        color: colors.white,
+        fontSize: 32,
+    },
 })
